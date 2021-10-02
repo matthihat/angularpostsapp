@@ -1,6 +1,7 @@
 const { APP_ID } = require('@angular/core')
 const express = require('express')
 const bodyParser = require('body-parser')
+const path = require('path')
 const mongoose = require('mongoose')
 
 const postsRoutes = require('./routes/posts')
@@ -17,6 +18,7 @@ mongoose.connect('mongodb+srv://Max:5KQ3Dfd2MZgBGb3r@cluster0.zwpgm.mongodb.net/
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
+app.use("/images", express.static(path.join("backend/images")))
 
 app.use("/api/posts", (req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*")

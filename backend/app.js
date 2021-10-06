@@ -5,6 +5,7 @@ const path = require('path')
 const mongoose = require('mongoose')
 
 const postsRoutes = require('./routes/posts')
+const userRoutes = require('./routes/user')
 
 const app = express()
 
@@ -20,7 +21,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use("/images", express.static(path.join("backend/images")))
 
-app.use("/api/posts", (req, res, next) => {
+app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*")
   res.setHeader(
     "Access-Control-Allow-Headers",
@@ -33,29 +34,8 @@ app.use("/api/posts", (req, res, next) => {
   next()
 })
 
+//Forward requests
 app.use("/api/posts", postsRoutes)
+app.use("/api/user", userRoutes)
 
-
-/*
-app.use("/api/posts", (req, res, next) => {
-
-const posts = [
-  {
-    id: "isdfjsdfsdf",
-    title: "First post!",
-    content: "First content!"
-  },
-  {
-    id: "isdfjsdfsdf",
-    title: "Second post!",
-    content: "Second content!"
-  }
-]
-
-  res.status(200).json({
-    message: 'Posts fetched succesfully',
-    posts: posts
-  })
-})
-*/
 module.exports = app

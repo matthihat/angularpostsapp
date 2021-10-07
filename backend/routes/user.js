@@ -66,4 +66,24 @@ const token = jwt.sign(
   })
 })
 
+/** Using async await
+ * router.post("/login", async (req, res, next) => {
+ try {
+ let user = await User.findOne({email: req.body.email});
+ if (!user) return res.status(401).send("Auth Failed");
+ const validPassword = await bcrypt.compare(req.body.password, user.password);
+ if (!validPassword) return res.status(401).send("Auth Failed");
+ const token = jwt.sign({email: user.email, userId: user._id},
+ "secret",
+ { expiresIn: "1h"} );
+ res.status(200).json({
+ token: token
+ });
+ }
+ catch (err) {
+ res.status(401).send("Auth Failed");
+ }
+});
+ */
+
 module.exports = router
